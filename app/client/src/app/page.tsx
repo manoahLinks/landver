@@ -7,29 +7,32 @@ import RoleSelection from "@/components/RoleSelection";
 import { PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useLoginStore } from "@/store/loginStore";
 
 const Next: React.FC = () => {
   const [connectedWallet, setConnectedWallet] = useState<string | null>(null);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [role, setRole] = useState<string | null>(null);
+  const [role, setRole] = useState<"owner" | "inspector" | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
-
+  const loginStore = useLoginStore();
   const handleWalletConnect = (walletId: string, address: string | null) => {
     setConnectedWallet(walletId);
     setWalletAddress(address);
     toast.success(`Connected to wallet: ${walletId}`);
   };
 
-  const handleRoleSelect = async (role: string) => {
-    
+  const handleRoleSelect = async (role: "owner" | "inspector") => {
     setRole(role);
     setIsLoading(true);
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       localStorage.setItem("user-type", role);
-      console.log(`Role selected: ${role}, proceeding to dashboard...`);
+      loginStore.setUserType(role);
+      console.log(
+        `Role selected: ${loginStore.userType}, proceeding to dashboard...`
+      );
       toast.success("Redirecting to dashboard...");
       router.push("/dashboard");
     } catch (error) {
@@ -39,7 +42,6 @@ const Next: React.FC = () => {
       setIsLoading(false);
     }
   };
-
   return (
     <div className="flex flex-col md:items-start justify-center px-5 w-full min-h-screen overflow-auto">
       {/* Header */}
@@ -52,7 +54,6 @@ const Next: React.FC = () => {
           priority
         />
       </header>
-
       {/* Main Section */}
       <main className="flex flex-col md:flex-row md:justify-between justify-center mt-10 w-full">
         <section className="text-center md:text-start">

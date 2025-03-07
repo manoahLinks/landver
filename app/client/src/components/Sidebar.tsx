@@ -98,7 +98,7 @@ export const Sidebar = () => {
         </div>
         {
             !!loginStore.userType && OPTIONS[loginStore.userType].map((item, index)=>{
-              console.log('user tpye',loginStore.userType)
+      
               return (
                 <div key={"sidebar-desktop-id"+index} onClick={()=>{
                   setShowSidebar(false)

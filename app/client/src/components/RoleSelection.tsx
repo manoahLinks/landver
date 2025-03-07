@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 interface RoleSelectionProps {
   connectedWallet: string;
-  onRoleSelect: (role: string) => void;
+  onRoleSelect: (role: 'owner'|'inspector') => void;
 }
 
 // Function to truncate the wallet address

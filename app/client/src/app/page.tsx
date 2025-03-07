@@ -22,23 +22,16 @@ const Next: React.FC = () => {
   };
 
   const handleRoleSelect = async (role: string) => {
+    
     setRole(role);
     setIsLoading(true);
-    
+
     try {
-      // Simulate an async operation (e.g., API call or blockchain interaction)
       await new Promise((resolve) => setTimeout(resolve, 1000));
+      localStorage.setItem("user-type", role);
       console.log(`Role selected: ${role}, proceeding to dashboard...`);
       toast.success("Redirecting to dashboard...");
-      
-      // Router will handle navigation in the RoleSelection component
-      // This is a fallback in case the navigation in RoleSelection fails
-      setTimeout(() => {
-        if (document.location.pathname !== "/dashboard") {
-          router.push("/dashboard");
-        }
-      }, 1500);
-      
+      router.push("/dashboard");
     } catch (error) {
       console.error("Error proceeding to dashboard:", error);
       toast.error("Failed to proceed. Please try again.");
@@ -64,14 +57,16 @@ const Next: React.FC = () => {
       <main className="flex flex-col md:flex-row md:justify-between justify-center mt-10 w-full">
         <section className="text-center md:text-start">
           <h1 className="md:text-[48px] text-[30px] font-bold text-[#6E62E5]">
-            Land Registry <br />Protocol
+            Land Registry <br />
+            Protocol
           </h1>
           <p className="text-gray-400 mt-2 text-[16px]">
-            Secure, transparent, and efficient land registration <br /> powered by blockchain
-            technology.
+            Secure, transparent, and efficient land registration <br /> powered
+            by blockchain technology.
           </p>
           <h2 className="text-[#6B21A8] text-[20px] font-semibold mt-5">
-            A Secure Platform for Land Registration, Inspection, and <br />Validation on Starknet
+            A Secure Platform for Land Registration, Inspection, and <br />
+            Validation on Starknet
           </h2>
           <ul className="text-gray-600 mt-8 space-y-4">
             <FeatureItem text="Effortless land registration with unique property IDs." />

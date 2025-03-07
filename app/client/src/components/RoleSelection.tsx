@@ -16,12 +16,12 @@ const truncateAddress = (address: string): string => {
 };
 
 const RoleSelection: React.FC<RoleSelectionProps> = ({ connectedWallet, onRoleSelect }) => {
-  const [selectedRole, setSelectedRole] = useState<string | null>(null);
+  const [selectedRole, setSelectedRole] = useState<'owner'|'inspector'| null>(null);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const handleRoleSelect = (role: string) => {
-    setSelectedRole(role);
+    setSelectedRole(role as "owner" | "inspector");
     setError(null); // Clear any previous error
     toast.success(`Selected Role: ${role}`);
   };
@@ -53,9 +53,9 @@ const RoleSelection: React.FC<RoleSelectionProps> = ({ connectedWallet, onRoleSe
         <div className="flex flex-col md:flex-row justify-center mt-8 space-y-4 md:space-y-0 md:space-x-4">
           <button
             className={`flex flex-col items-center p-4 bg-white border ${
-              selectedRole === "Land Owner" ? "border-[#6E62E5]" : "border-gray-300"
+              selectedRole === "owner" ? "border-[#6E62E5]" : "border-gray-300"
             } rounded-lg shadow-md hover:bg-gray-50 transition-transform duration-300`}
-            onClick={() => handleRoleSelect("Land Owner")}
+            onClick={() => handleRoleSelect("owner")}
           >
             <p className="mt-2 font-semibold text-[#6E62E5]">Land Owner</p>
             <p className="mt-1 text-gray-600">Manage and verify your land ownership</p>
@@ -63,9 +63,9 @@ const RoleSelection: React.FC<RoleSelectionProps> = ({ connectedWallet, onRoleSe
 
           <button
             className={`flex flex-col items-center p-4 bg-white border ${
-              selectedRole === "Land Inspector" ? "border-[#6E62E5]" : "border-gray-300"
+              selectedRole === "inspector" ? "border-[#6E62E5]" : "border-gray-300"
             } rounded-lg shadow-md hover:bg-gray-50 transition-transform duration-300`}
-            onClick={() => handleRoleSelect("Land Inspector")}
+            onClick={() => handleRoleSelect("inspector")}
           >
             <p className="mt-2 font-semibold text-[#6E62E5]">Land Inspector</p>
             <p className="mt-1 text-gray-600">Verify and validate land records</p>

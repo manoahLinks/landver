@@ -43,21 +43,21 @@ const Next: React.FC = () => {
     }
   };
   return (
-    <div className="flex flex-col md:items-start justify-center px-5 w-full min-h-screen overflow-auto">
+    <div className="flex flex-col md:items-start justify-center p-7 w-full min-h-screen overflow-auto">
       {/* Header */}
       <header>
         <Image
-          src="/images/logo.png"
+          src="/logo-and-name.svg"
           alt="Land Registry Protocol Logo"
-          width={100}
-          height={100}
+          width={120}
+          height={120}
           priority
         />
       </header>
       {/* Main Section */}
-      <main className="flex flex-col md:flex-row md:justify-between justify-center mt-10 w-full">
+      <main className="flex flex-col md:flex-row md:justify-between justify-center mt-10 w-full p-4">
         <section className="text-center md:text-start">
-          <h1 className="md:text-[48px] text-[30px] font-bold text-[#6E62E5]">
+          <h1 className="md:text-[30px] text-[30px] font-bold text-[#6E62E5]">
             Land Registry <br />
             Protocol
           </h1>

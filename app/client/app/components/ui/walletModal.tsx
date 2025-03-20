@@ -9,7 +9,7 @@ const WalletModal = () => {
 
   return (
     <div className="p-6 max-w-md mx-auto  rounded-xl shadow-md space-y-4">
-      <h2 className="text-xl font-semibold text-center">Connect Your Wallet</h2>
+
       <div className="space-y-2">
         {connectors.map((connector, index) => (
           <div

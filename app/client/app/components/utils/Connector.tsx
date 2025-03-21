@@ -16,6 +16,7 @@ const Connector: React.FC = () => {
   const router = useRouter();
  
   console.log(data);
+  console.log(status);
   return (
     <div className="p-6 text-center">
       {status === "connected" && (

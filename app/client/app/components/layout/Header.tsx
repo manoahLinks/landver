@@ -3,7 +3,7 @@ import { useAppContext } from "@/app/context/appContext";
 import { useState, useRef, useEffect } from "react";
 
 const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
-  const { balance, status } = useAppContext();
+  const { disconnectWallet, balance, status } = useAppContext();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
@@ -88,7 +88,7 @@ const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
               <button
                 className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                 onClick={() => {
-                  
+                  disconnectWallet();
                   setShowProfileMenu(false);
                 }}
               >

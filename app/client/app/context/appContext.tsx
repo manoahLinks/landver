@@ -2,6 +2,7 @@
 import { createContext, useContext } from "react";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
 import { useConnect, useDisconnect, useAccount,useBalance } from "@starknet-react/core";
 import type { Connector } from "@starknet-react/core";
 
@@ -22,6 +23,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const toast = useRef<Toast>(null);
   const { connectAsync } = useConnect();
   const { disconnectAsync } = useDisconnect();
@@ -62,7 +64,11 @@ const {data}=useBalance({address:address as '0x'})
   const disconnectWallet = async () => {
     try {
       await disconnectAsync();
+      localStorage.removeItem("connector");
       showToast("success", "Success", "Wallet disconnected successfully");
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
     } catch (error) {
       console.log(error)
       showToast("error", "Error", "Failed to disconnect wallet");

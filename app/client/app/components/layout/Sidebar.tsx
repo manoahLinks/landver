@@ -1,14 +1,13 @@
 'use client'
 import Image from "next/image";
 import { X } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Settings } from "lucide-react";
 import Link from "next/link";
-import { useDisconnect } from "@starknet-react/core";
+import { useAppContext } from "@/app/context/appContext";
 
 const Sidebar = ({ closeSidebar }: { closeSidebar: () => void }) => {
-    const { disconnectAsync } = useDisconnect({});
-    const router = useRouter();
+    const { disconnectWallet } = useAppContext();
     const pathname = usePathname();
     const pathSegments = pathname.split("/");
     const userType = pathSegments[2];
@@ -33,22 +32,6 @@ const Sidebar = ({ closeSidebar }: { closeSidebar: () => void }) => {
     };
   
     const menuItems = sidebarElements[userType as keyof typeof sidebarElements] || [];
-
-    const disconnectWallet = async () => {
-      try {
-        await disconnectAsync();
-        localStorage.removeItem('connector');
-        
-        alert("Wallet disconnected successfully.");
-        
-        setTimeout(() => {
-          router.push("/");
-        }, 1000);
-      } catch (error) {
-        console.log(error)
-        alert("Failed to disconnect wallet.");
-      }
-    };
   
     return (
       <div className="p-4 flex flex-col h-full">

@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useConnect, useDisconnect, useAccount,useBalance } from "@starknet-react/core";
 import type { Connector } from "@starknet-react/core";
+import DotPulseLoader from "../components/ui/DotPulseLoader";
 
 interface AppContextType {
   showToast: (
@@ -16,7 +17,7 @@ interface AppContextType {
   disconnectWallet: () => Promise<void>;
   address?: string;
   status: string;
-  balance?:string;
+  balance?: string | React.ReactNode;
   contactAddress?:string;
 }
 
@@ -28,8 +29,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const { connectAsync } = useConnect();
   const { disconnectAsync } = useDisconnect();
   const { address, status } = useAccount();
-const {data}=useBalance({address:address as '0x'})  
- const balance=`${data?.value}.${data?.decimals} ETH`
+  const { data, isLoading } = useBalance({ address: address as "0x" });  
+
+  const balance = isLoading || !data ? <DotPulseLoader/> : `${data.value}.${data.decimals} ETH`;
+  
   const showToast = (
     severity: "success" | "error" | "info",
     summary: string,

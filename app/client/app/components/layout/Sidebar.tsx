@@ -4,7 +4,10 @@ import { X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Settings } from "lucide-react";
 import Link from "next/link";
+import { useAppContext } from "@/app/context/appContext";
+
 const Sidebar = ({ closeSidebar }: { closeSidebar: () => void }) => {
+    const { disconnectWallet } = useAppContext();
     const pathname = usePathname();
     const pathSegments = pathname.split("/");
     const userType = pathSegments[2];
@@ -76,13 +79,13 @@ const Sidebar = ({ closeSidebar }: { closeSidebar: () => void }) => {
             <Settings size={20} />
             <span>Settings</span>
           </Link>
-          <Link
-            href="/logout"
+          <button
+            onClick={disconnectWallet}
             className="p-2 rounded-md flex items-center space-x-2 hover:bg-red-100 transition-colors"
           >
             <Image src="/icons/sidebar/logout.svg" alt="Logout" width={20} height={20} />
             <span>Logout</span>
-          </Link>
+          </button>
         </div>
       </div>
     );

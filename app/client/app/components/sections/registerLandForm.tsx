@@ -18,7 +18,6 @@ const RegisterLandForm = () => {
     location: "",
     area: "",
     landUse: "",
-    price: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -123,23 +122,7 @@ const RegisterLandForm = () => {
             <option value="3">Agricultural</option>
           </select>
         </div>
-
-        <div>
-          <label className="text-gray-700 font-medium">Price *</label>
-          <select
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-md bg-gray-100 focus:outline-none"
-            required
-          >
-            <option value="">Select</option>
-            <option value="10000">10,000</option>
-            <option value="50000">50,000</option>
-            <option value="100000">100,000</option>
-          </select>
-        </div>
-
+        
         <div className="flex justify-between mt-4">
           <button
             type="button"

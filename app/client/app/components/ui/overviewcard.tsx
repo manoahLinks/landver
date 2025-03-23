@@ -7,7 +7,7 @@ interface CardProps {
   buttonText?: string;
   onButtonClick?: () => void;
   icon?: React.ReactNode;
-  value?: string | number;
+  value?: string | number | React.ReactNode;
   image?: React.ReactNode;
   className?: string;
   badges?: number;

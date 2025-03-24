@@ -1,22 +1,21 @@
 import React from "react";
 
-interface SpinnerProps {
+type SpinnerProps = {
   size?: "small" | "medium" | "large";
-}
+  color?: string;
+};
 
-const Spinner: React.FC<SpinnerProps> = ({ size = "medium" }) => {
-  const sizes: Record<SpinnerProps["size"], string> = {
-    small: "w-4 h-4",
-    medium: "w-6 h-6",
-    large: "w-8 h-8",
+const Spinner: React.FC<SpinnerProps> = ({ size = "medium", color = "border-blue-500" }) => {
+  const sizeClasses = {
+    small: "w-4 h-4 border-2",
+    medium: "w-8 h-8 border-4",
+    large: "w-12 h-12 border-4",
   };
 
   return (
-    <div className="flex items-center justify-center h-screen w-screen">
-      <div
-        className={`animate-spin rounded-full border-2 border-gray-300 border-t-blue-500 ${sizes[size]}`}
-      />
-    </div>
+    <div
+      className={`inline-block animate-spin rounded-full border-t-transparent ${sizeClasses[size]} ${color}`}
+    ></div>
   );
 };
 

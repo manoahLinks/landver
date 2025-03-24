@@ -4,10 +4,10 @@ import { useState } from "react";
 import {useContract, useAccount } from "@starknet-react/core";
 import { ABI } from "../abis/landRegistry.abi";
 import { useAppContext } from "../context/appContext";
-import Spinner from "../components/ui/Spinner";
+
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState<Boolean>(false)
+ 
   const {contactAddress}=useAppContext()
   const { account } = useAccount();
   const { contract } = useContract({
@@ -36,7 +36,6 @@ const toBigNumberish = (value: string) => BigInt(value) * BigInt("10000000000000
       alert("Contract not found.");
       return;
     }
-    setLoading(true)
 
     try {
   
@@ -58,20 +57,11 @@ const toBigNumberish = (value: string) => BigInt(value) * BigInt("10000000000000
     } catch (error) {
       console.error("Transaction failed:", error);
       alert("Transaction failed.");
-    }finally {
-      setLoading(false)
     }
   };
 
   return (
-    <div className="max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg text-white relative">
-      
-      {loading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <Spinner size="large" />
-        </div>
-      )}
-
+    <div className="max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg text-white">
       <h2 className="text-xl font-bold mb-4">Register Land</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -113,9 +103,8 @@ const toBigNumberish = (value: string) => BigInt(value) * BigInt("10000000000000
         <button
           type="submit"
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded"
-          disabled={loading}
         >
-          {loading ? "Processing..." : "Register Land"}
+          Register Land
         </button>
       </form>
     </div>

@@ -5,7 +5,9 @@ import {useContract, useAccount } from "@starknet-react/core";
 import { ABI } from "../abis/landRegistry.abi";
 import { useAppContext } from "../context/appContext";
 
+
 const Dashboard = () => {
+ 
   const {contactAddress}=useAppContext()
   const { account } = useAccount();
   const { contract } = useContract({

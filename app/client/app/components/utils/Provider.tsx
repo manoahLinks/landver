@@ -8,19 +8,32 @@ import {
   braavos,
   useInjectedConnectors,
   voyager,
- 
 } from "@starknet-react/core";
+import { WebWalletConnector } from "starknetkit/webwallet";
+import { ArgentMobileConnector } from "starknetkit/argentMobile";
+import { StarknetkitConnector } from "starknetkit";
 
 export function StarknetProvider({ children }: { children: React.ReactNode }) {
- 
   const { connectors } = useInjectedConnectors({
+    recommended: [
+      argent(),
+      braavos(),
+      new WebWalletConnector(),
+      ArgentMobileConnector.init({
+        options: {
+          dappName: "Landver",
+          url:
+            typeof window !== "undefined"
+              ? window.location.hostname
+              : "https://demo.landver.net",
 
-    recommended: [argent(), braavos()],
-    //includeRecommended: "onlyIfNoConnectors",
+          icons: [],
+        },
+      }) as StarknetkitConnector,
+    ],
     order: "alphabetical",
   });
 
-  
   return (
     <StarknetConfig
       chains={[mainnet, sepolia]}

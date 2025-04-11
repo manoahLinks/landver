@@ -1,17 +1,17 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import WalletModal from "../ui/walletModal";
 import { useAppContext } from "@/app/context/appContext";
 import { useBalance } from "@starknet-react/core";
 import { useRouter } from "next/navigation";
 import Button from "../ui/button";
 
-function parseAddress(addr: string | undefined) {
-  if (!addr) return "";
-  return ` ${addr?.slice(0, 8)}...${addr.slice(addr.length - 8, addr.length)}`;
-}
+// function parseAddress(addr: string | undefined) {
+//   if (!addr) return "";
+//   return ` ${addr?.slice(0, 8)}...${addr.slice(addr.length - 8, addr.length)}`;
+// }
 const Connector: React.FC = () => {
-  const { disconnectWallet, address, status } = useAppContext();
+  const {  address, status } = useAppContext();
   const { data } = useBalance({ address: address as "0x" });
   const router = useRouter();
  

@@ -1,7 +1,5 @@
 'use client'
 import React from "react";
-import Sidebar from "@/app/components/layout/Sidebar";
-import Header from "@/app/components/layout/Header";
 import RegisterLandForm from "@/app/components/sections/registerLandForm";
 import Overview from "./components/overview";
 import Button from "@/app/components/ui/button";

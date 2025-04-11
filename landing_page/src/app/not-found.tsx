@@ -12,7 +12,7 @@ export default function Custom404() {
       <div className="w-[50%] h-full flex flex-col items-start justify-center space-y-3">
         <p className="text-xl border-b-[2px] border-blue-800">Error 404</p>
         <div className="text-7xl my-2 text-left text-black font-bold">
-          <p>there's light</p>
+          <p>there is light</p>
           <p>in here too</p>
         </div>
         <p className="text-base">but the page is missing or you assembled the link incorrectly</p>

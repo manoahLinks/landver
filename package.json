@@ -1,4 +1,9 @@
 {
+  "private": true,
+  "workspaces": [
+    "app/client",
+    "landing_page"
+  ],
   "dependencies": {
     "@apibara/indexer": "^0.4.1",
     "@apibara/protocol": "^0.4.9",
@@ -7,5 +12,12 @@
     "primeicons": "^7.0.0",
     "primereact": "^10.9.2"
   },
-  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
+  "scripts": {
+    "postinstall": "husky install",
+    "build": "pnpm -r run build"
+  },
+  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
 }

@@ -11,7 +11,6 @@ export type BestSellerItem = {
   date: string
 }
 
-
 // Shared "View all" button with chevron
 export const ViewAllButton = () => {
   return (
@@ -22,48 +21,46 @@ export const ViewAllButton = () => {
   )
 }
 
-// Best Seller Table Component
-export const BestSellerTable = ({ items }: { items: BestSellerItem[] }) => {
+// Reusable Table Component
+export const Table = ({
+  headers,
+  rows,
+  title,
+  actionButton
+}: {
+  headers: { key: string; label: string }[]
+  rows: Record<string, any>[]
+  title?: string
+  actionButton?: React.ReactNode
+}) => {
   return (
     <div className="bg-white rounded-lg p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-medium text-[#000000]">Best Seller</h2>
-        <ViewAllButton />
-      </div>
+      {title && (
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-medium text-[#000000]">{title}</h2>
+          {actionButton}
+        </div>
+      )}
       
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="text-left text-[#7E8299] text-sm border-b border-dashed">
-              <th className="pb-2">NO</th>
-              <th className="pb-2">LAND ID</th>
-              <th className="pb-2">BUYER/ LAND NAME</th>
-              <th className="pb-2">PRICE</th>
-              <th className="pb-2">DATE</th>
+              {headers.map((header) => (
+                <th key={header.key} className="pb-2">
+                  {header.label}
+                </th>
+              ))}
             </tr>
           </thead>
-          <tbody className=''>
-            {items.map((item) => (
-              <tr key={item.id} className="border-b border-dashed text-[#3F4254] border-[#7E82994D]/30">
-                <td className="py-7">{item.id}</td>
-                <td className="py-7">{item.landId}</td>
-                <td className="py-7">
-                  <div className="flex items-center gap-2">
-                    <div className="bg-purple-500 w-6 h-6 rounded-full flex items-center justify-center">
-                      <img src="/pro.svg" alt="" />
-                    </div>
-                    {item.buyer}
-                  </div>
-                </td>
-                <td className="py-7">
-                  <div className="flex items-center gap-1">
-                    <div className=" w-5 h-5 rounded-full flex items-center justify-center">
-                      <img src="/ethIcon.svg" alt="" />
-                    </div>
-                    {item.price}
-                  </div>
-                </td>
-                <td className="py-4 text-[#B5B5C3]">{item.date}</td>
+          <tbody>
+            {rows.map((row, rowIndex) => (
+              <tr key={rowIndex} className="border-b border-dashed text-[#3F4254] border-[#7E82994D]/30">
+                {headers.map((header) => (
+                  <td key={`${rowIndex}-${header.key}`} className="py-7">
+                    {row[header.key]}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
@@ -73,7 +70,45 @@ export const BestSellerTable = ({ items }: { items: BestSellerItem[] }) => {
   )
 }
 
+// Best Seller Table Component using the reusable Table
+export const BestSellerTable = ({ items }: { items: BestSellerItem[] }) => {
+  const headers = [
+    { key: 'id', label: 'NO' },
+    { key: 'landId', label: 'LAND ID' },
+    { key: 'buyer', label: 'BUYER/ LAND NAME' },
+    { key: 'price', label: 'PRICE' },
+    { key: 'date', label: 'DATE' }
+  ]
 
+  const rows = items.map(item => ({
+    ...item,
+    buyer: (
+      <div className="flex items-center gap-2">
+        <div className="bg-purple-500 w-6 h-6 rounded-full flex items-center justify-center">
+          <img src="/pro.svg" alt="" />
+        </div>
+        {item.buyer}
+      </div>
+    ),
+    price: (
+      <div className="flex items-center gap-1">
+        <div className="w-5 h-5 rounded-full flex items-center justify-center">
+          <img src="/ethIcon.svg" alt="" />
+        </div>
+        {item.price}
+      </div>
+    )
+  }))
+
+  return (
+    <Table
+      headers={headers}
+      rows={rows}
+      title="Best Seller"
+      actionButton={<ViewAllButton />}
+    />
+  )
+}
 
 export const generateBestSellerData = (): BestSellerItem[] => {
   return [

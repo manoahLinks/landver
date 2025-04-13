@@ -1,11 +1,28 @@
 {
-  "dependencies": {
-    "@apibara/indexer": "^0.4.1",
-    "@apibara/protocol": "^0.4.9",
-    "@mailchimp/mailchimp_marketing": "^3.0.80",
-    "pg": "^8.13.1",
-    "primeicons": "^7.0.0",
-    "primereact": "^10.9.2"
+  "name": "landver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "client",
+    "landing_page"
+  ],
+  "scripts": {
+    "prepare": "husky install",
+    "build": "pnpm --filter landver-client... build && pnpm --filter landing_page... build",
+    "client": "pnpm --filter landver-client dev",
+    "landing": "pnpm --filter landing_page dev"
   },
-  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,tsx}": "pnpm exec eslint --fix"
+  }
 }

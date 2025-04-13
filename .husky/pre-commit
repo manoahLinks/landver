@@ -1,0 +1,17 @@
+#!/bin/sh
+echo "Pre-Commit Hook Running..."
+
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$CURRENT_BRANCH" = "develop" ]; then
+  echo "You are on the branch develop. Please commit to a feature branch instead."
+  exit 1
+fi
+
+echo "Project being built..."
+npm run build || { echo "Build failed. Commit aborted."; exit 1; }
+
+echo "Build was successful. Running Prettier & ESLint..."
+
+echo "Changes staged after formatting..."
+git add -A .

@@ -30,7 +30,7 @@ jobs:
 
       - name: Run tests
         run: snforge test
-        working-directory: land_registry
+        working-directory: contracts/land_registry
 
   build-client:
     runs-on: ubuntu-latest

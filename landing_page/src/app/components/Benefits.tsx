@@ -58,14 +58,14 @@ const Benefits = () => {
         className="flex flex-col justify-center items-center gap-1"
         variants={fadeInUp}
       >
-        <P classname="capitalize text-center mt-10 text-2xl font-semibold">
+        <p className="capitalize text-center mt-10 text-2xl font-semibold">
           Experience The Unique Benefits of Landver
-        </P>
-        <P classname="w-[100%] md:w-[40%] text-center p-5 text-base">
+        </p>
+        <p className="w-[100%] md:w-[40%] text-center p-5 text-base">
           LandVer offers secure, NFT-backed land ownership that&apos;s easy to
           register, verify, and transfer on the blockchain. Trust in
           transparent, immutable records for seamless land management.
-        </P>
+        </p>
       </motion.div>
       <div className="grid justify-center">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 justify-center w-fit place-content-center place-items-center">

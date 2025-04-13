@@ -1,17 +1,17 @@
 #!/bin/sh
-echo "🚀 Pre-commit hook running..."
+echo "🚀 Running Pre-Commit Hook..."
 
 # Get the current branch name
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 # Prevent commits directly to the "main" branch
 if [ "$CURRENT_BRANCH" = "develop" ]; then
-  echo "🚨 You are currently on branch develop. Please commit to a feature branch instead."
+  echo "🚨 You are on the 'main' branch (develop). Please commit to a feature branch instead."
   exit 1
 fi
 
 # Run the build process to ensure no errors
-echo "🔨 Project being built..."
+echo "🔨 Building the project..."
 npm run build || { echo "❌ Build failed. Commit aborted."; exit 1; }
 
 # # Run lint-staged for formatting and linting staged files

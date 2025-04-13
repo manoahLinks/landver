@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "prepare": "husky install",
-    "build": "pnpm --filter client... build && pnpm --filter landing_page... build",
+    "build": "pnpm --filter landver-client... build && pnpm --filter landing_page... build",
     "client": "pnpm --filter landver-client dev",
     "landing": "pnpm --filter landing_page dev"
   },

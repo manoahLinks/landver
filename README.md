@@ -45,21 +45,25 @@ Steps to build and run LandVer locally.
 
 ## How to Run the Code
 
-### Running the Client and Server
+### Running the landing page
 
- Navigate to the client directory, install the packages, and start the client
+From the root directory
 ```bash 
-cd app/client
- pnpm install 
- pnpm run dev
-```
- In a separate terminal, navigate to the server directory, install the packages, and start the server
 
-```bash
-cd app/server
-npm install
-npm run dev
+ pnpm install 
+ pnpm run landing
 ```
+
+
+### Running the Client
+
+From the root directory
+```bash 
+
+ pnpm install 
+ pnpm run client
+```
+
 
 
 ### Running the Land Registry Contracts
@@ -98,7 +102,7 @@ npm start
 ### Build for production:
 
 ```bash
-npm run build
+pnpm  build
 ```
 
 # Project Flow Chart

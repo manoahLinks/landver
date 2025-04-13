@@ -44,4 +44,8 @@ target/
 **/*/.env
 **/*/dist
 **/*/node_modules
+<<<<<<< HEAD
 node_modules
+=======
+node_modules/
+>>>>>>> cb465717ddd08ece45764a32d4f5d9270e95baf7

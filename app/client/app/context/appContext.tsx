@@ -3,7 +3,12 @@ import { createContext, useContext } from "react";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useConnect, useDisconnect, useAccount,useBalance } from "@starknet-react/core";
+import {
+  useConnect,
+  useDisconnect,
+  useAccount,
+  useBalance,
+} from "@starknet-react/core";
 import type { Connector } from "@starknet-react/core";
 import DotPulseLoader from "../components/ui/DotPulseLoader";
 
@@ -18,7 +23,7 @@ interface AppContextType {
   address?: string;
   status: string;
   balance?: string | React.ReactNode;
-  contactAddress?:string;
+  contactAddress?: string;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -29,10 +34,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const { connectAsync } = useConnect();
   const { disconnectAsync } = useDisconnect();
   const { address, status } = useAccount();
-  const { data, isLoading } = useBalance({ address: address as "0x" });  
+  const { data, isLoading } = useBalance({
+    token: "0x04718f5a0Fc34cC1AF16A1cdee98fFB20C31f5cD61D6Ab07201858f4287c938D",
+    address: address as "0x",
+  });
 
-  const balance = isLoading || !data ? <DotPulseLoader/> : `${data.value}.${data.decimals} ETH`;
-  
+  const balance =
+    isLoading || !data ? (
+      <DotPulseLoader />
+    ) : (
+      `${parseFloat(data.formatted).toFixed(2)} STRK`
+    );
+
   const showToast = (
     severity: "success" | "error" | "info",
     summary: string,
@@ -56,7 +69,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         } else if (error.message.includes("Connector not found")) {
           errorMessage = `${connector.name} is not installed.`;
         } else {
-      
           errorMessage = "Connection Failed";
         }
       }
@@ -73,15 +85,24 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         router.push("/");
       }, 1000);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       showToast("error", "Error", "Failed to disconnect wallet");
     }
   };
-  const contactAddress="0x00a74ca9b3f9fb5941b5fc53ea383995b4d8b8ee7b40b323ac1bb260d44f00d2"
+  const contactAddress =
+    "0x00a74ca9b3f9fb5941b5fc53ea383995b4d8b8ee7b40b323ac1bb260d44f00d2";
 
   return (
     <AppContext.Provider
-      value={{ showToast, connectWallet, disconnectWallet, address, status ,balance,contactAddress}}
+      value={{
+        showToast,
+        connectWallet,
+        disconnectWallet,
+        address,
+        status,
+        balance,
+        contactAddress,
+      }}
     >
       <Toast ref={toast} />
       {children}

@@ -31,7 +31,6 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
         },
       }) as StarknetkitConnector,
     ],
-    order: "alphabetical",
   });
 
   return (

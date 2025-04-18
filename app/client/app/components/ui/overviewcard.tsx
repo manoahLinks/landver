@@ -39,7 +39,7 @@ const Card: React.FC<CardProps> = ({
 
         {value && (
           <div className="flex justify-between items-center mt-2">
-            <p className="text-4xl font-bold">{value}</p>
+            <span className="text-4xl font-bold">{value}</span>
             <div className="w-16 h-16 rounded-full">
               <div className={`w-full rounded-full h-full bg-gradient-to-b ${svgColor?svgColor:'bg-secondary'} flex items-center justify-center`}>
                 <Image

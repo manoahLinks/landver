@@ -218,7 +218,7 @@ pub mod LandRegistryContract {
             let mut result = array![];
             let owner_land_count = self.owner_land_count.read(owner);
             let mut i = 0;
-            while i < owner_land_count {
+            while i != owner_land_count {
                 let land_id = self.owner_lands.read((owner, i));
                 result.append(land_id);
                 i += 1;
@@ -231,7 +231,7 @@ pub mod LandRegistryContract {
             let land_count = self.land_count.read();
             let mut i: u64 = 1;
 
-            while i < land_count + 1 {
+            while i != land_count + 1 {
                 let land: Land = self.lands_registry.read(i);
                 lands.append(land);
                 i += 1;
@@ -374,8 +374,9 @@ pub mod LandRegistryContract {
             let mut pending_approvals = array![];
             let owner = get_caller_address();
             let owner_land_count = self.owner_land_count.read(owner);
+            
             let mut i = 0;
-            while i < owner_land_count {
+            while i != owner_land_count {
                 let land_id = self.owner_lands.read((owner, i));
                 if (!self.approved_lands.read(land_id)) {
                     pending_approvals.append(land_id);
@@ -391,7 +392,7 @@ pub mod LandRegistryContract {
             let mut land_history = array![];
             let transaction_count = self.land_transaction_count.read(land_id);
             let mut i = 0;
-            while i < transaction_count {
+            while i != transaction_count {
                 land_history.append(self.land_transaction_history.read((land_id, i)));
                 i += 1;
             };
@@ -424,7 +425,7 @@ pub mod LandRegistryContract {
             let land_count = self.land_count.read();
             let mut i: u64 = 1;
 
-            while i < land_count + 1 {
+            while i != land_count + 1 {
                 let land_registry: Land = self.lands_registry.read(i);
                 let land_inspector = self.land_inspectors.read(land_registry.land_id);
 
@@ -479,7 +480,7 @@ pub mod LandRegistryContract {
             let mut inspectors = array![];
             let inspector_count = self.inspector_count.read();
             let mut i = 0;
-            while i < inspector_count {
+            while i != inspector_count {
                 let inspector = self.all_land_inspectors.read(i);
                 if (self.registered_inspectors.read(inspector)) {
                     inspectors.append(inspector);
@@ -628,7 +629,7 @@ pub mod LandRegistryContract {
             let count = self.active_listing_count.read();
 
             let mut i: u64 = 0;
-            while i < count {
+            while i != count {
                 active.append(self.active_listings.read(i));
                 i += 1;
             };
@@ -660,7 +661,7 @@ pub mod LandRegistryContract {
             let mut i: u64 = 0;
 
             // Find listing index
-            while i < count {
+            while i != count {
                 if self.active_listings.read(i) == listing_id {
                     // Replace with last listing if not last
                     if i < count - 1 {

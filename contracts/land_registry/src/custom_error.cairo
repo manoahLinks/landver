@@ -16,6 +16,8 @@ pub mod Errors {
     pub const OWNER_MK_INSPECTOR: felt252 = 'Only owner can set an inspector';
     pub const INSPECTOR_ADDR: felt252 = 'Invalid inspector address';
     pub const REGISTERED_INSPECTOR: felt252 = 'Inspector already registered';
+    pub const REGISTERED_OWNER: felt252 = 'Owner already registered';
+    pub const ALREADY_REGISTERED_FOR_ROLE: felt252 = 'Already registered for role';
     pub const NOT_REGISTERED_INSP: felt252 = 'Inspector not registered';
     pub const ACTIVE_INSPECTOR: felt252 = 'Inspector is active';
     pub const NOT_AUTHORIZED: felt252 = 'Not authorized';

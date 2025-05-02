@@ -125,7 +125,11 @@ pub mod LandRegistryContract {
             ref self: ContractState, location: Location, area: u64, land_use: felt252,
         ) -> u64 {
             let caller = get_caller_address();
-
+            
+            // Check if the user is already registered as an inspector
+            let is_inspector = self.registered_inspectors.read(caller);
+            assert(!is_inspector, Errors::ALREADY_REGISTERED_FOR_ROLE);
+            
             let timestamp = get_block_timestamp();
             // Generate unique land ID based on owner, timestamp, location, and a counter
             // This counter increases for each registration to re-ensure uniqueness.
@@ -280,16 +284,14 @@ pub mod LandRegistryContract {
             let mut i: u64 = 0;
 
             // Find the land index in old owner's records
-            loop {
-                if i >= old_owner_land_count {
-                    break;
-                }
+            // Using != instead of < for better efficiency in Cairo
+            while i != old_owner_land_count {
                 if self.owner_lands.read((old_owner, i)) == land_id {
                     index_to_remove = i;
                     break;
                 }
                 i += 1;
-            };
+            }
 
             assert(index_to_remove < old_owner_land_count, Errors::NO_LAND);
 
@@ -443,7 +445,14 @@ pub mod LandRegistryContract {
 
         fn add_inspector(ref self: ContractState, inspector: ContractAddress) {
             assert(inspector != 0.try_into().unwrap(), Errors::INSPECTOR_ADDR);
-            assert(!self.registered_inspectors.read(inspector), Errors::REGISTERED_INSPECTOR);
+            
+            // Check if the inspector is already registered and prevent duplicate registration
+            let is_registered = self.registered_inspectors.read(inspector);
+            assert(!is_registered, Errors::REGISTERED_INSPECTOR);
+            
+            // Check if the user already has a land owner role
+            let owner_land_count = self.owner_land_count.read(inspector);
+            assert(owner_land_count == 0, Errors::ALREADY_REGISTERED_FOR_ROLE);
 
             // Register the inspector
             self.registered_inspectors.write(inspector, true);

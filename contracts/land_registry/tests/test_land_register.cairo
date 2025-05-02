@@ -517,6 +517,56 @@ fn test_cannot_add_duplicate_inspector() {
 }
 
 #[test]
+#[should_panic(expected: ('Already registered for role',))]
+fn test_inspector_cannot_register_land() {
+    let contract_address = deploy("LandRegistryContract");
+    let land_register_dispatcher = ILandRegistryDispatcher { contract_address };
+
+    // Set up test data
+    let user_address = starknet::contract_address_const::<0x456>();
+    let admin_address = starknet::contract_address_const::<0x123>();
+    let location = Location { latitude: 1, longitude: 2 };
+    let area = 1000;
+    let land_use = 'Residential';
+
+    start_cheat_caller_address(contract_address, admin_address);
+
+    // First register the user as an inspector
+    land_register_dispatcher.add_inspector(user_address);
+
+    // Now try to register land with the same address - should panic
+    start_cheat_caller_address(contract_address, user_address);
+    land_register_dispatcher.register_land(location, area, land_use);
+
+    stop_cheat_caller_address(contract_address);
+}
+
+#[test]
+#[should_panic(expected: ('Already registered for role',))]
+fn test_land_owner_cannot_become_inspector() {
+    let contract_address = deploy("LandRegistryContract");
+    let land_register_dispatcher = ILandRegistryDispatcher { contract_address };
+
+    // Set up test data
+    let user_address = starknet::contract_address_const::<0x456>();
+    let admin_address = starknet::contract_address_const::<0x123>();
+    let location = Location { latitude: 1, longitude: 2 };
+    let area = 1000;
+    let land_use = 'Residential';
+
+    // First register land to make the user a land owner
+    start_cheat_caller_address(contract_address, user_address);
+    land_register_dispatcher.register_land(location, area, land_use);
+    stop_cheat_caller_address(contract_address);
+
+    // Now try to make the same user an inspector - should panic
+    start_cheat_caller_address(contract_address, admin_address);
+    land_register_dispatcher.add_inspector(user_address);
+
+    stop_cheat_caller_address(contract_address);
+}
+
+#[test]
 #[should_panic(expected: ('Invalid inspector address',))]
 fn test_cannot_add_zero_address_inspector() {
     let contract_address = deploy("LandRegistryContract");

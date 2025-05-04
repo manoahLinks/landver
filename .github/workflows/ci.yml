@@ -11,9 +11,25 @@ on:
       - develop
 
 jobs:
+  build-contracts:
+    runs-on: ubuntu-latest
+    name: Build contracts
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Scarb
+        uses: software-mansion/setup-scarb@v1
+        with:
+          scarb-version: "2.11.4"
+
+      - name: Build contracts
+        run: scarb build
+        working-directory: contracts/land_registry
+
   test:
     runs-on: ubuntu-latest
-    name: tests
+    name: Tests
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

@@ -125,7 +125,11 @@ pub mod LandRegistryContract {
             ref self: ContractState, location: Location, area: u64, land_use: felt252,
         ) -> u64 {
             let caller = get_caller_address();
-
+            
+            // Check if the user is already registered as an inspector
+            let is_inspector = self.registered_inspectors.read(caller);
+            assert(!is_inspector, Errors::ALREADY_REGISTERED_FOR_ROLE);
+            
             let timestamp = get_block_timestamp();
             // Generate unique land ID based on owner, timestamp, location, and a counter
             // This counter increases for each registration to re-ensure uniqueness.
@@ -214,7 +218,7 @@ pub mod LandRegistryContract {
             let mut result = array![];
             let owner_land_count = self.owner_land_count.read(owner);
             let mut i = 0;
-            while i < owner_land_count {
+            while i != owner_land_count {
                 let land_id = self.owner_lands.read((owner, i));
                 result.append(land_id);
                 i += 1;
@@ -227,7 +231,7 @@ pub mod LandRegistryContract {
             let land_count = self.land_count.read();
             let mut i: u64 = 1;
 
-            while i < land_count + 1 {
+            while i != land_count + 1 {
                 let land: Land = self.lands_registry.read(i);
                 lands.append(land);
                 i += 1;
@@ -280,16 +284,14 @@ pub mod LandRegistryContract {
             let mut i: u64 = 0;
 
             // Find the land index in old owner's records
-            loop {
-                if i >= old_owner_land_count {
-                    break;
-                }
+            // Using != instead of < for better efficiency in Cairo
+            while i != old_owner_land_count {
                 if self.owner_lands.read((old_owner, i)) == land_id {
                     index_to_remove = i;
                     break;
                 }
                 i += 1;
-            };
+            }
 
             assert(index_to_remove < old_owner_land_count, Errors::NO_LAND);
 
@@ -372,8 +374,9 @@ pub mod LandRegistryContract {
             let mut pending_approvals = array![];
             let owner = get_caller_address();
             let owner_land_count = self.owner_land_count.read(owner);
+            
             let mut i = 0;
-            while i < owner_land_count {
+            while i != owner_land_count {
                 let land_id = self.owner_lands.read((owner, i));
                 if (!self.approved_lands.read(land_id)) {
                     pending_approvals.append(land_id);
@@ -389,7 +392,7 @@ pub mod LandRegistryContract {
             let mut land_history = array![];
             let transaction_count = self.land_transaction_count.read(land_id);
             let mut i = 0;
-            while i < transaction_count {
+            while i != transaction_count {
                 land_history.append(self.land_transaction_history.read((land_id, i)));
                 i += 1;
             };
@@ -422,7 +425,7 @@ pub mod LandRegistryContract {
             let land_count = self.land_count.read();
             let mut i: u64 = 1;
 
-            while i < land_count + 1 {
+            while i != land_count + 1 {
                 let land_registry: Land = self.lands_registry.read(i);
                 let land_inspector = self.land_inspectors.read(land_registry.land_id);
 
@@ -443,7 +446,14 @@ pub mod LandRegistryContract {
 
         fn add_inspector(ref self: ContractState, inspector: ContractAddress) {
             assert(inspector != 0.try_into().unwrap(), Errors::INSPECTOR_ADDR);
-            assert(!self.registered_inspectors.read(inspector), Errors::REGISTERED_INSPECTOR);
+            
+            // Check if the inspector is already registered and prevent duplicate registration
+            let is_registered = self.registered_inspectors.read(inspector);
+            assert(!is_registered, Errors::REGISTERED_INSPECTOR);
+            
+            // Check if the user already has a land owner role
+            let owner_land_count = self.owner_land_count.read(inspector);
+            assert(owner_land_count == 0, Errors::ALREADY_REGISTERED_FOR_ROLE);
 
             // Register the inspector
             self.registered_inspectors.write(inspector, true);
@@ -470,7 +480,7 @@ pub mod LandRegistryContract {
             let mut inspectors = array![];
             let inspector_count = self.inspector_count.read();
             let mut i = 0;
-            while i < inspector_count {
+            while i != inspector_count {
                 let inspector = self.all_land_inspectors.read(i);
                 if (self.registered_inspectors.read(inspector)) {
                     inspectors.append(inspector);
@@ -619,7 +629,7 @@ pub mod LandRegistryContract {
             let count = self.active_listing_count.read();
 
             let mut i: u64 = 0;
-            while i < count {
+            while i != count {
                 active.append(self.active_listings.read(i));
                 i += 1;
             };
@@ -651,7 +661,7 @@ pub mod LandRegistryContract {
             let mut i: u64 = 0;
 
             // Find listing index
-            while i < count {
+            while i != count {
                 if self.active_listings.read(i) == listing_id {
                     // Replace with last listing if not last
                     if i < count - 1 {

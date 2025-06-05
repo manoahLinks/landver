@@ -1,15 +1,15 @@
-'use client'
-import React from 'react'
-import { ChevronRight } from 'lucide-react'
+"use client";
+import React from "react";
+import { ChevronRight } from "lucide-react";
 
 // Types
 export type BestSellerItem = {
-  id: number
-  landId: string
-  buyer: string
-  price: number
-  date: string
-}
+  id: number;
+  landId: string;
+  buyer: string;
+  price: number;
+  date: string;
+};
 
 // Shared "View all" button with chevron
 export const ViewAllButton = () => {
@@ -18,20 +18,21 @@ export const ViewAllButton = () => {
       View all
       <ChevronRight className="w-4 h-4 ml-1" />
     </button>
-  )
-}
+  );
+};
 
 // Reusable Table Component
 export const Table = ({
   headers,
   rows,
   title,
-  actionButton
+  actionButton,
 }: {
-  headers: { key: string; label: string }[]
-  rows: Record<string, any>[]
-  title?: string
-  actionButton?: React.ReactNode
+  headers: { key: string; label: string }[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  rows: Record<string, any>[];
+  title?: string;
+  actionButton?: React.ReactNode;
 }) => {
   return (
     <div className="bg-white rounded-lg p-6">
@@ -41,7 +42,7 @@ export const Table = ({
           {actionButton}
         </div>
       )}
-      
+
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
@@ -55,7 +56,10 @@ export const Table = ({
           </thead>
           <tbody>
             {rows.map((row, rowIndex) => (
-              <tr key={rowIndex} className="border-b border-dashed text-[#3F4254] border-[#7E82994D]/30">
+              <tr
+                key={rowIndex}
+                className="border-b border-dashed text-[#3F4254] border-[#7E82994D]/30"
+              >
                 {headers.map((header) => (
                   <td key={`${rowIndex}-${header.key}`} className="py-7">
                     {row[header.key]}
@@ -67,20 +71,20 @@ export const Table = ({
         </table>
       </div>
     </div>
-  )
-}
+  );
+};
 
 // Best Seller Table Component using the reusable Table
 export const BestSellerTable = ({ items }: { items: BestSellerItem[] }) => {
   const headers = [
-    { key: 'id', label: 'NO' },
-    { key: 'landId', label: 'LAND ID' },
-    { key: 'buyer', label: 'BUYER/ LAND NAME' },
-    { key: 'price', label: 'PRICE' },
-    { key: 'date', label: 'DATE' }
-  ]
+    { key: "id", label: "NO" },
+    { key: "landId", label: "LAND ID" },
+    { key: "buyer", label: "BUYER/ LAND NAME" },
+    { key: "price", label: "PRICE" },
+    { key: "date", label: "DATE" },
+  ];
 
-  const rows = items.map(item => ({
+  const rows = items.map((item) => ({
     ...item,
     buyer: (
       <div className="flex items-center gap-2">
@@ -97,8 +101,8 @@ export const BestSellerTable = ({ items }: { items: BestSellerItem[] }) => {
         </div>
         {item.price}
       </div>
-    )
-  }))
+    ),
+  }));
 
   return (
     <Table
@@ -107,14 +111,38 @@ export const BestSellerTable = ({ items }: { items: BestSellerItem[] }) => {
       title="Best Seller"
       actionButton={<ViewAllButton />}
     />
-  )
-}
+  );
+};
 
 export const generateBestSellerData = (): BestSellerItem[] => {
   return [
-    { id: 1, landId: '56037-XDER', buyer: 'Tress1234', price: 0.2345, date: '20/11/24' },
-    { id: 2, landId: '56037-XDER', buyer: 'Tress1234', price: 0.2345, date: '20/11/24' },
-    { id: 3, landId: '56037-XDER', buyer: 'Tress1234', price: 0.2345, date: '20/11/24' },
-    { id: 4, landId: '56037-XDER', buyer: 'Tress1234', price: 0.2345, date: '20/11/24' },
-  ]
-}
+    {
+      id: 1,
+      landId: "56037-XDER",
+      buyer: "Tress1234",
+      price: 0.2345,
+      date: "20/11/24",
+    },
+    {
+      id: 2,
+      landId: "56037-XDER",
+      buyer: "Tress1234",
+      price: 0.2345,
+      date: "20/11/24",
+    },
+    {
+      id: 3,
+      landId: "56037-XDER",
+      buyer: "Tress1234",
+      price: 0.2345,
+      date: "20/11/24",
+    },
+    {
+      id: 4,
+      landId: "56037-XDER",
+      buyer: "Tress1234",
+      price: 0.2345,
+      date: "20/11/24",
+    },
+  ];
+};

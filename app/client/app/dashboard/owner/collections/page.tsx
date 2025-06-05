@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import LayersIcon from "@/app/svg/LayersIcon";
 import InfoCard from "@/app/components/ui/InfoCard";
 import SearchBar from "@/app/components/ui/SearchBar";
+import RegisterLandButton from "../components/registerLandButton";
 const page = () => {
   return (
     <div>
@@ -11,9 +12,7 @@ const page = () => {
         <h2 className="text-[24px] leading-[26.4px] font-semibold text-[#090914]">
           Collections
         </h2>
-        <button className="bg-[#6E62E5] hover:bg-[#5353c5] disabled:bg-[#a0a0d8] px-6 py-2 text-base text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed">
-          Register New Land
-        </button>
+        <RegisterLandButton />
       </div>
       <div className="flex gap-x-6 items-center mb-6">
         <InfoCard

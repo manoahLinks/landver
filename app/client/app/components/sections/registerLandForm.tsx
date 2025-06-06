@@ -5,7 +5,7 @@ import { useContract, useAccount } from "@starknet-react/core";
 import { ABI } from "../../abis/landRegistry.abi";
 import { useAppContext } from "../../context/appContext";
 
-const RegisterLandForm = () => {
+const RegisterLandForm = ({ handleClose }: { handleClose?: () => void }) => {
   const { contactAddress } = useAppContext();
   const { account } = useAccount();
   const { contract } = useContract({
@@ -20,11 +20,14 @@ const RegisterLandForm = () => {
     landUse: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const toBigNumberish = (value: string) => BigInt(value) * BigInt("1000000000000000000");
+  const toBigNumberish = (value: string) =>
+    BigInt(value) * BigInt("1000000000000000000");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,7 +70,9 @@ const RegisterLandForm = () => {
           <span className="text-primary text-2xl">🛖</span>
         </div>
         <h2 className="text-xl font-semibold mt-2">Register New Land</h2>
-        <p className="text-gray-500 text-sm">Please enter all details to register your land</p>
+        <p className="text-gray-500 text-sm">
+          Please enter all details to register your land
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -122,10 +127,11 @@ const RegisterLandForm = () => {
             <option value="3">Agricultural</option>
           </select>
         </div>
-        
+
         <div className="flex justify-between mt-4">
           <button
             type="button"
+            onClick={handleClose}
             className="w-1/2 text-gray-600 font-medium border border-gray-300 py-2 rounded-md hover:bg-gray-200 transition"
           >
             Cancel
@@ -133,7 +139,9 @@ const RegisterLandForm = () => {
           <button
             type="submit"
             className={`w-1/2 text-white font-medium py-2 rounded-md transition ${
-              isFormValid ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-300 cursor-not-allowed"
+              isFormValid
+                ? "bg-blue-600 hover:bg-blue-700"
+                : "bg-gray-300 cursor-not-allowed"
             }`}
             disabled={!isFormValid}
           >

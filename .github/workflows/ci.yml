@@ -11,25 +11,9 @@ on:
       - develop
 
 jobs:
-  build-contracts:
-    runs-on: ubuntu-latest
-    name: Build contracts
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Scarb
-        uses: software-mansion/setup-scarb@v1
-        with:
-          scarb-version: "2.11.4"
-
-      - name: Build contracts
-        run: scarb build
-        working-directory: contracts/land_registry
-
   test:
     runs-on: ubuntu-latest
-    name: Tests
+    name: tests
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -37,12 +21,12 @@ jobs:
       - name: Set up Scarb
         uses: software-mansion/setup-scarb@v1
         with:
-          scarb-version: "2.11.4"
+          scarb-version: "2.9.2"
 
       - name: Set up SNForge
         uses: foundry-rs/setup-snfoundry@v3
         with:
-          starknet-foundry-version: "0.41.0"
+          starknet-foundry-version: "0.36.0"
 
       - name: Run tests
         run: snforge test
